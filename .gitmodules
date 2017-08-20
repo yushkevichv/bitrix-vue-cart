@@ -1,0 +1,3 @@
+[submodule "bdock"]
+	path = bdock
+	url = https://github.com/yushkevichv/bdock
