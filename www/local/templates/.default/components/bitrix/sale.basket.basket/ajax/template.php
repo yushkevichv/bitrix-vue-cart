@@ -98,8 +98,8 @@ if (strlen($arResult["ERROR_MESSAGE"]) <= 0)
 			<!-- <input type="hidden" name="ajax_post" id="ajax_post" value="Y"> -->
 		</form>
 
-    <cart :products="[]"></cart>
-<!--    --><?// var_dump($arResult['ITEMS']['AnDelCanBuy']); die(); ?>
+    <cart :products="<?=htmlentities(json_encode($arResult['ITEMS']['AnDelCanBuy']))?>"></cart>
+
 	<?
 }
 else

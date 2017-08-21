@@ -5,7 +5,37 @@
                 <div class="bx_sort_container">
                     <span>Товары в корзине:</span>
                 </div>
-                <basket-items></basket-items>
+                <div v-if="products">
+                    <div id="basket_items_list">
+                        <div class="bx_ordercart_order_table_container">
+                            <div id="basket_items">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        Товары
+                                    </div>
+                                    <div class="col-md-2">
+                                        Цена
+                                    </div>
+                                    <div class="col-md-2">
+                                        Количество
+                                    </div>
+                                    <div class="col-md-2">
+                                        Сумма
+                                    </div>
+                                    <div class="col-md-2"></div>
+
+
+                                </div>
+                                <div v-for="product in products">
+                                    <basket-product :product="product"></basket-product>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div v-else>
+                    В корзине нет товаров
+                </div>
             </div>
         </div>
     </div>
@@ -23,7 +53,7 @@
             }
         },
         components: {
-            "basket-items": require("./BasketItems.vue")
+            "basket-product": require("./BasketProduct.vue")
         }
 
     }
