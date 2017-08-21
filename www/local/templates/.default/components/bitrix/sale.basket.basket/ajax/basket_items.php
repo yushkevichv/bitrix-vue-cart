@@ -16,9 +16,7 @@ $bPriceType    = false;
 
 if ($normalCount > 0):
 ?>
-    <pre>
-        <? var_dump(json_encode($arResult)); ?>
-    </pre>
+
 <div id="basket_items_list">
 	<div class="bx_ordercart_order_table_container">
 		<table id="basket_items">

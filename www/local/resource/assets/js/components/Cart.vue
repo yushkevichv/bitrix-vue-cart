@@ -16,9 +16,15 @@
         mounted() {
 //            console.log('Component mounted.')
         },
-    components: {
-        "basket-items": require("./BasketItems.vue")
-    }
+        props: {
+            products: {
+                type: Array,
+                required: false
+            }
+        },
+        components: {
+            "basket-items": require("./BasketItems.vue")
+        }
 
     }
 </script>

@@ -79,6 +79,9 @@ if (strlen($arResult["ERROR_MESSAGE"]) <= 0)
 	unset($id);
 
 	?>
+    <pre>
+        <? print_r(json_encode($arResult['ITEMS']['AnDelCanBuy'])); ?>
+    </pre>
 		<form method="post" action="<?=POST_FORM_ACTION_URI?>" name="basket_form" id="basket_form">
 			<div id="basket_form_container">
 				<div class="bx_ordercart <?=$templateData['TEMPLATE_CLASS']; ?>">
@@ -94,7 +97,9 @@ if (strlen($arResult["ERROR_MESSAGE"]) <= 0)
 			<input type="hidden" name="BasketOrder" value="BasketOrder" />
 			<!-- <input type="hidden" name="ajax_post" id="ajax_post" value="Y"> -->
 		</form>
-    <cart></cart>
+
+    <cart :products="[]"></cart>
+<!--    --><?// var_dump($arResult['ITEMS']['AnDelCanBuy']); die(); ?>
 	<?
 }
 else
