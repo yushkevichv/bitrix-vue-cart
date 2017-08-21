@@ -1,3 +1,4 @@
 {
-  "/mix.js": "/mix.js"
+  "/mix.js": "/mix.js",
+  "/local/js/app.js": "/local/js/app.js"
 }

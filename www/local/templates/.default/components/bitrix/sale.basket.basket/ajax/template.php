@@ -43,10 +43,6 @@ $arBasketJSParams = array(
 );
 ?>
 
-<pre>
-    <? print_r(CUtil::PhpToJSObject($arBasketJSParams)); ?>
-</pre>
-
 <script type="text/javascript">
 	var basketJSParams = <?=CUtil::PhpToJSObject($arBasketJSParams);?>;
 </script>
@@ -98,6 +94,7 @@ if (strlen($arResult["ERROR_MESSAGE"]) <= 0)
 			<input type="hidden" name="BasketOrder" value="BasketOrder" />
 			<!-- <input type="hidden" name="ajax_post" id="ajax_post" value="Y"> -->
 		</form>
+    <cart></cart>
 	<?
 }
 else
