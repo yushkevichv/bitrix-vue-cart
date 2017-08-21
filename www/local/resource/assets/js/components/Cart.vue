@@ -27,7 +27,7 @@
 
                                 </div>
                                 <div v-for="product in products">
-                                    <basket-product :product="product"></basket-product>
+                                    <basket-product :product="product" @updateQuantity="updateQuantity(product.ID, product.QUANTITY)"></basket-product>
                                 </div>
                             </div>
                         </div>
@@ -52,9 +52,37 @@
                 required: false
             },
             sessid: {
-                type: String,
+                type: [String, Number],
                 required: false
             }
+        },
+        methods: {
+//            updateQuantity(product_id, quantity)  {
+//                console.log('here');
+//                console.log('product ' + product_id);
+//                console.log('count ' + quantity);
+//
+//                let data = {
+//                    sessid: this.sessid,
+//                    'site_id': BX.message('SITE_ID'),
+//                    action_var: 'basketAction',
+//                    basketAction: 'recalculate',
+//                }
+//
+//                data['QUANTITY_'+product_id] = quantity;
+//
+//                axios.post("/bitrix/components/bitrix/sale.basket.basket/ajax.php",
+//                    data
+//                ).then(response => {
+//                    this.products = response.data.products;
+//                this.price = response.data.price;
+//            }).
+//                catch(error => console.error(error)
+//            )
+//                ;
+//
+//
+//            }
         },
         components: {
             "basket-product": require("./BasketProduct.vue")

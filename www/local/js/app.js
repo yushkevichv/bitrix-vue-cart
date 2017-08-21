@@ -42026,9 +42026,37 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             required: false
         },
         sessid: {
-            type: String,
+            type: [String, Number],
             required: false
         }
+    },
+    methods: {
+        //            updateQuantity(product_id, quantity)  {
+        //                console.log('here');
+        //                console.log('product ' + product_id);
+        //                console.log('count ' + quantity);
+        //
+        //                let data = {
+        //                    sessid: this.sessid,
+        //                    'site_id': BX.message('SITE_ID'),
+        //                    action_var: 'basketAction',
+        //                    basketAction: 'recalculate',
+        //                }
+        //
+        //                data['QUANTITY_'+product_id] = quantity;
+        //
+        //                axios.post("/bitrix/components/bitrix/sale.basket.basket/ajax.php",
+        //                    data
+        //                ).then(response => {
+        //                    this.products = response.data.products;
+        //                this.price = response.data.price;
+        //            }).
+        //                catch(error => console.error(error)
+        //            )
+        //                ;
+        //
+        //
+        //            }
     },
     components: {
         "basket-product": __webpack_require__(9)
@@ -42067,7 +42095,7 @@ if(false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(44)();
-exports.push([module.i, "\n.photo_container[data-v-321fd0d1], .bx_ordercart_photo[data-v-321fd0d1] {\n    width: 150px;\n    height: 150px;\n}\n", ""]);
+exports.push([module.i, "\n.photo_container[data-v-321fd0d1], .bx_ordercart_photo[data-v-321fd0d1] {\n    width: 150px;\n    height: 150px;\n}\n.bx_ordercart .bx_ordercart_photo_container[data-v-321fd0d1] {\n    padding-top: 0px;\n}\n", ""]);
 
 /***/ }),
 /* 44 */
@@ -42402,12 +42430,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
+        //            this.count = 5;
         //            console.log('Component mounted.')
     },
 
+    data: function data() {
+        return {
+            quantity: this.product.QUANTITY
+        };
+    },
     props: {
         product: {
             type: Object,
@@ -42419,6 +42458,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             if (this.product.PREVIEW_PICTURE_SRC.length > 0) return this.product.PREVIEW_PICTURE_SRC;
             if (this.product.DETAIL_PICTURE_SRC.length > 0) return this.product.DETAIL_PICTURE_SRC;else return '/local/templates/.default/components/bitrix/sale.basket.basket.ajax/images/no_photo.png';
         }
+    },
+    methods: {
+        updateQuantity: function updateQuantity() {
+            console.log('id ' + this.product.ID);
+            console.log('this ' + this.quantity);
+
+            var data = {
+                sessid: this.sessid,
+                'site_id': BX.message('SITE_ID'),
+                action_var: 'basketAction',
+                basketAction: 'recalculate'
+            };
+
+            data['QUANTITY_' + this.product.ID] = this.quantity;
+
+            axios.post("/bitrix/components/bitrix/sale.basket.basket/ajax.php", data).then(function (response) {
+                console.log(response);
+            }).catch(function (error) {
+                return console.error(error);
+            });
+        }
     }
 });
 
@@ -42427,8 +42487,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('div', {
-    staticClass: "bx_ordercart_photo_container photo_container"
+  return _c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "bx_ordercart_photo_container photo_container col-md-4"
   }, [_c('a', {
     attrs: {
       "href": _vm.product.DETAIL_PAGE_URL
@@ -42439,12 +42501,34 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       'background-image': 'url(' + _vm.pictureSrc + ')'
     })
   })])]), _vm._v(" "), _c('h2', {
-    staticClass: "bx_ordercart_itemtitle"
+    staticClass: "bx_ordercart_itemtitle col-md-2"
   }, [_c('a', {
     attrs: {
       "href": _vm.product.DETAIL_PAGE_URL
     }
-  }, [_vm._v("\n             " + _vm._s(_vm.product.NAME) + "\n        ")])])])
+  }, [_vm._v("\n            " + _vm._s(_vm.product.NAME) + "\n        ")])]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-1"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.quantity),
+      expression: "quantity"
+    }],
+    attrs: {
+      "type": "number"
+    },
+    domProps: {
+      "value": (_vm.quantity)
+    },
+    on: {
+      "change": _vm.updateQuantity,
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.quantity = $event.target.value
+      }
+    }
+  })])])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -42481,6 +42565,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     return _c('div', [_c('basket-product', {
       attrs: {
         "product": product
+      },
+      on: {
+        "updateQuantity": function($event) {
+          _vm.updateQuantity(product.ID, product.QUANTITY)
+        }
       }
     })], 1)
   })], 2)])])]) : _c('div', [_vm._v("\n                В корзине нет товаров\n            ")])])])])

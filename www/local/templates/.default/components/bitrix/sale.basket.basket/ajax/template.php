@@ -100,7 +100,7 @@ if (strlen($arResult["ERROR_MESSAGE"]) <= 0)
 		</form>
 <!--    --><?// var_dump(htmlentities(bitrix_sessid())); ?>
 
-    <cart :products="<?=htmlentities(json_encode($arResult['ITEMS']['AnDelCanBuy']))?>" sessid="df"></cart>
+    <cart :products="<?=htmlentities(json_encode($arResult['ITEMS']['AnDelCanBuy']))?>" sessid="<?=bitrix_sessid() ?>"></cart>
 
 	<?
 }
