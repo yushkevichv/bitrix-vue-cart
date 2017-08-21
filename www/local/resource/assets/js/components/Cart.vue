@@ -50,6 +50,10 @@
             products: {
                 type: Array,
                 required: false
+            },
+            sessid: {
+                type: String,
+                required: false
             }
         },
         components: {

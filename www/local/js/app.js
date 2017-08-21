@@ -42024,6 +42024,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         products: {
             type: Array,
             required: false
+        },
+        sessid: {
+            type: String,
+            required: false
         }
     },
     components: {
@@ -42401,7 +42405,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
-        console.log('Component mounted.');
+        //            console.log('Component mounted.')
     },
 
     props: {

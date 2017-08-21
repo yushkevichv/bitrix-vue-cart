@@ -45,6 +45,7 @@ $arBasketJSParams = array(
 
 <script type="text/javascript">
 	var basketJSParams = <?=CUtil::PhpToJSObject($arBasketJSParams);?>;
+	console.log();
 </script>
 <?
 $APPLICATION->AddHeadScript($templateFolder."/script.js");
@@ -97,8 +98,9 @@ if (strlen($arResult["ERROR_MESSAGE"]) <= 0)
 			<input type="hidden" name="BasketOrder" value="BasketOrder" />
 			<!-- <input type="hidden" name="ajax_post" id="ajax_post" value="Y"> -->
 		</form>
+<!--    --><?// var_dump(htmlentities(bitrix_sessid())); ?>
 
-    <cart :products="<?=htmlentities(json_encode($arResult['ITEMS']['AnDelCanBuy']))?>"></cart>
+    <cart :products="<?=htmlentities(json_encode($arResult['ITEMS']['AnDelCanBuy']))?>" sessid="df"></cart>
 
 	<?
 }
