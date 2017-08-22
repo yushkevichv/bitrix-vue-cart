@@ -55,14 +55,15 @@
 
                 let data = {
                     sessid: this.sessid,
-                    'site_id': BX.message('SITE_ID'),
-                    action_var: 'basketAction',
-                    basketAction: 'recalculate',
+                    product_id: this.product.ID,
+                    product: this.product.PRODUCT_ID,
+                    quantity: this.quantity,
                 }
 
-                data['QUANTITY_' + this.product.ID] = this.quantity;
+                //data['QUANTITY_' + this.product.ID] = this.quantity;
 
-                axios.post("/bitrix/components/bitrix/sale.basket.basket/ajax.php", data)
+//                axios.post("/bitrix/components/bitrix/sale.basket.basket/ajax.php", data)
+                axios.post("/local/api/cart.php", data)
                     .then(response => {
                         console.log(response);
                     })

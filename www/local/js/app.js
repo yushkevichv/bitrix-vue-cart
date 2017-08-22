@@ -42466,14 +42466,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             var data = {
                 sessid: this.sessid,
-                'site_id': BX.message('SITE_ID'),
-                action_var: 'basketAction',
-                basketAction: 'recalculate'
-            };
+                product_id: this.product.ID,
+                product: this.product.PRODUCT_ID,
+                quantity: this.quantity
 
-            data['QUANTITY_' + this.product.ID] = this.quantity;
+                //data['QUANTITY_' + this.product.ID] = this.quantity;
 
-            axios.post("/bitrix/components/bitrix/sale.basket.basket/ajax.php", data).then(function (response) {
+                //                axios.post("/bitrix/components/bitrix/sale.basket.basket/ajax.php", data)
+            };axios.post("/local/api/cart.php", data).then(function (response) {
                 console.log(response);
             }).catch(function (error) {
                 return console.error(error);
