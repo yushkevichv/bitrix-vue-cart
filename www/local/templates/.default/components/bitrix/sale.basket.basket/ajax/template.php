@@ -45,7 +45,6 @@ $arBasketJSParams = array(
 
 <script type="text/javascript">
 	var basketJSParams = <?=CUtil::PhpToJSObject($arBasketJSParams);?>;
-	console.log();
 </script>
 <?
 $APPLICATION->AddHeadScript($templateFolder."/script.js");
@@ -80,10 +79,7 @@ if (strlen($arResult["ERROR_MESSAGE"]) <= 0)
 	unset($id);
 
 	?>
-    <pre>
-        <? print_r(json_encode($arResult['ITEMS']['AnDelCanBuy'])); ?>
-    </pre>
-		<form method="post" action="<?=POST_FORM_ACTION_URI?>" name="basket_form" id="basket_form">
+    	<form method="post" action="<?=POST_FORM_ACTION_URI?>" name="basket_form" id="basket_form">
 			<div id="basket_form_container">
 				<div class="bx_ordercart <?=$templateData['TEMPLATE_CLASS']; ?>">
 					<div class="bx_sort_container">
@@ -100,7 +96,19 @@ if (strlen($arResult["ERROR_MESSAGE"]) <= 0)
 		</form>
 <!--    --><?// var_dump(htmlentities(bitrix_sessid())); ?>
 
-    <cart :products="<?=htmlentities(json_encode($arResult['ITEMS']['AnDelCanBuy']))?>" sessid="<?=bitrix_sessid() ?>"></cart>
+    <?
+    // TODO need refactor to work with float value
+
+    $allSum = (int) $arResult['allSum'];
+    $allBaseSum = (int) ($arResult['allSum'] + $arResult['DISCOUNT_PRICE_ALL']);
+
+    ?>
+
+    <cart :products="<?=htmlentities(json_encode($arResult['ITEMS']['AnDelCanBuy']))?>"
+          :total-basket-price="<?=$allSum;?>"
+          :total-basket-base-price="<?=$allBaseSum;?>"
+    >
+    </cart>
 
 	<?
 }

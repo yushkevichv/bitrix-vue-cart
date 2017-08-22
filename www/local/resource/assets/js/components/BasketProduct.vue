@@ -1,20 +1,25 @@
 <template>
     <div class="row">
-        <div class="bx_ordercart_photo_container photo_container col-md-4">
+        <div class="photo_container col-md-4">
             <a :href="product.DETAIL_PAGE_URL">
                 <div class="bx_ordercart_photo" :style="{ 'background-image': 'url('+ pictureSrc + ')' }"></div>
             </a>
         </div>
-        <h2 class="bx_ordercart_itemtitle col-md-2">
-            <a :href="product.DETAIL_PAGE_URL">
-                {{ product.NAME }}
-            </a>
-        </h2>
+        <div class="col-md-2">
+            <span class="bx_ordercart_itemtitle ">
+                <a :href="product.DETAIL_PAGE_URL">
+                    {{ product.NAME }}
+                </a>
+            </span>
+        </div>
 
-        <div class="col-md-1">
+        <div class="col-md-2 offset-md-2">
             <input type="number"  v-model="quantity"
             @change="updateQuantity"
             >
+        </div>
+        <div class="col-md-2">
+            {{ summ }}
         </div>
 
     </div>
@@ -28,9 +33,8 @@
         },
         data: function() {
           return {
-              quantity: this.product.QUANTITY
+              quantity: this.product.QUANTITY,
           }
-
         },
         props: {
             product: {
@@ -46,12 +50,13 @@
                     return this.product.DETAIL_PICTURE_SRC;
                 else
                     return '/local/templates/.default/components/bitrix/sale.basket.basket.ajax/images/no_photo.png';
+            },
+            summ: function () {
+                return this.product.PRICE * this.quantity;
             }
         },
         methods: {
             updateQuantity()  {
-                console.log('id '+this.product.ID);
-                console.log('this ' + this.quantity);
 
                 let data = {
                     sessid: this.sessid,
@@ -60,12 +65,10 @@
                     quantity: this.quantity,
                 }
 
-                //data['QUANTITY_' + this.product.ID] = this.quantity;
-
-//                axios.post("/bitrix/components/bitrix/sale.basket.basket/ajax.php", data)
                 axios.post("/local/api/cart.php", data)
                     .then(response => {
-                        console.log(response);
+                        this.$emit('dataUpdated', response.data);
+
                     })
                 .catch(error => console.error(error));
 
@@ -75,11 +78,10 @@
 </script>
 
 <style scoped>
-    .photo_container, .bx_ordercart_photo {
+    .photo_container{
         width: 150px;
         height: 150px;
-    }
-    .bx_ordercart .bx_ordercart_photo_container {
         padding-top: 0px;
     }
+
 </style>

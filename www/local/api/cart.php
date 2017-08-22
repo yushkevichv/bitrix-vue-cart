@@ -14,10 +14,6 @@ define('NO_AGENT_CHECK', true);
 use Bitrix\Main\Loader;
 use Bitrix\Sale;
 
-
-//use Bitrix\Sale\Internals\BasketTable as CSaleBasket;
-
-
 Loader::includeModule("sale");
 
 $basket = Sale\Basket::loadItemsForFUser(Sale\Fuser::getId(), Bitrix\Main\Context::getCurrent()->getSite());
@@ -26,10 +22,6 @@ $data = json_decode(file_get_contents('php://input'), true);
 $product = $data['product']; //
 $productId = $data['product_id'];
 $quantity = $data['quantity'];
-
-/** int $productId ID товара */
-/** int $quantity количество */
-//var_dump($productId);
 
 if ($item = $basket->getExistsItem('catalog', $product)) {
     $item->setField('QUANTITY', $quantity);
@@ -46,26 +38,13 @@ else {
 $basket->save();
 
 $basketItems = $basket->getBasketItems();
-foreach ($basket as $basketItem) {
-    echo $basketItem->getField('NAME') . ' - ' . $basketItem->getQuantity() . ' - '. $basketItem->getProductId() .' <br />';
-}
-//var_dump($basket->getListOfFormatText());
 
-//use Bitrix\Sale;
-//
-//
+$return = [
+    'totalBasketPrice' => $basket->getPrice(), // сумма с учетом скидок
+    'totalBasketBasePrice' => $basket->getBasePrice(), // сумма без скидок
+];
 
-//
-//if(isset($data)) {
-//    $basket = Sale\Basket::loadItemsForFUser(Sale\Fuser::getId(), Bitrix\Main\Context::getCurrent()->getSite());
-//
-//    return $price = $basket->getPrice();
-//}
-
-
-
-
-
-
+echo json_encode($return);
+die();
 
 

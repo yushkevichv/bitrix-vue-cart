@@ -42014,6 +42014,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -42025,38 +42036,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             type: Array,
             required: false
         },
-        sessid: {
+        totalBasketPrice: {
             type: [String, Number],
-            required: false
+            required: true
+        },
+        totalBasketBasePrice: {
+            type: [String, Number],
+            required: true
         }
     },
+    data: function data() {
+        return {
+            allBaseSum: this.totalBasketBasePrice,
+            allSum: this.totalBasketPrice
+        };
+    },
     methods: {
-        //            updateQuantity(product_id, quantity)  {
-        //                console.log('here');
-        //                console.log('product ' + product_id);
-        //                console.log('count ' + quantity);
-        //
-        //                let data = {
-        //                    sessid: this.sessid,
-        //                    'site_id': BX.message('SITE_ID'),
-        //                    action_var: 'basketAction',
-        //                    basketAction: 'recalculate',
-        //                }
-        //
-        //                data['QUANTITY_'+product_id] = quantity;
-        //
-        //                axios.post("/bitrix/components/bitrix/sale.basket.basket/ajax.php",
-        //                    data
-        //                ).then(response => {
-        //                    this.products = response.data.products;
-        //                this.price = response.data.price;
-        //            }).
-        //                catch(error => console.error(error)
-        //            )
-        //                ;
-        //
-        //
-        //            }
+        updateCart: function updateCart(value) {
+            this.allBaseSum = value.totalBasketBasePrice;
+            this.allSum = value.totalBasketPrice;
+        }
     },
     components: {
         "basket-product": __webpack_require__(9)
@@ -42095,7 +42094,7 @@ if(false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(44)();
-exports.push([module.i, "\n.photo_container[data-v-321fd0d1], .bx_ordercart_photo[data-v-321fd0d1] {\n    width: 150px;\n    height: 150px;\n}\n.bx_ordercart .bx_ordercart_photo_container[data-v-321fd0d1] {\n    padding-top: 0px;\n}\n", ""]);
+exports.push([module.i, "\n.photo_container[data-v-321fd0d1]{\n    width: 150px;\n    height: 150px;\n    padding-top: 0px;\n}\n\n", ""]);
 
 /***/ }),
 /* 44 */
@@ -42435,6 +42434,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -42457,24 +42461,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         pictureSrc: function pictureSrc() {
             if (this.product.PREVIEW_PICTURE_SRC.length > 0) return this.product.PREVIEW_PICTURE_SRC;
             if (this.product.DETAIL_PICTURE_SRC.length > 0) return this.product.DETAIL_PICTURE_SRC;else return '/local/templates/.default/components/bitrix/sale.basket.basket.ajax/images/no_photo.png';
+        },
+        summ: function summ() {
+            return this.product.PRICE * this.quantity;
         }
     },
     methods: {
         updateQuantity: function updateQuantity() {
-            console.log('id ' + this.product.ID);
-            console.log('this ' + this.quantity);
+            var _this = this;
 
             var data = {
                 sessid: this.sessid,
                 product_id: this.product.ID,
                 product: this.product.PRODUCT_ID,
                 quantity: this.quantity
+            };
 
-                //data['QUANTITY_' + this.product.ID] = this.quantity;
-
-                //                axios.post("/bitrix/components/bitrix/sale.basket.basket/ajax.php", data)
-            };axios.post("/local/api/cart.php", data).then(function (response) {
-                console.log(response);
+            axios.post("/local/api/cart.php", data).then(function (response) {
+                _this.$emit('dataUpdated', response.data);
             }).catch(function (error) {
                 return console.error(error);
             });
@@ -42490,7 +42494,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('div', {
     staticClass: "row"
   }, [_c('div', {
-    staticClass: "bx_ordercart_photo_container photo_container col-md-4"
+    staticClass: "photo_container col-md-4"
   }, [_c('a', {
     attrs: {
       "href": _vm.product.DETAIL_PAGE_URL
@@ -42500,14 +42504,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     style: ({
       'background-image': 'url(' + _vm.pictureSrc + ')'
     })
-  })])]), _vm._v(" "), _c('h2', {
-    staticClass: "bx_ordercart_itemtitle col-md-2"
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-2"
+  }, [_c('span', {
+    staticClass: "bx_ordercart_itemtitle "
   }, [_c('a', {
     attrs: {
       "href": _vm.product.DETAIL_PAGE_URL
     }
-  }, [_vm._v("\n            " + _vm._s(_vm.product.NAME) + "\n        ")])]), _vm._v(" "), _c('div', {
-    staticClass: "col-md-1"
+  }, [_vm._v("\n                " + _vm._s(_vm.product.NAME) + "\n            ")])])]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-2 offset-md-2"
   }, [_c('input', {
     directives: [{
       name: "model",
@@ -42528,7 +42534,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.quantity = $event.target.value
       }
     }
-  })])])
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-2"
+  }, [_vm._v("\n        " + _vm._s(_vm.summ) + "\n    ")])])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -42567,12 +42575,25 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "product": product
       },
       on: {
-        "updateQuantity": function($event) {
-          _vm.updateQuantity(product.ID, product.QUANTITY)
-        }
+        "dataUpdated": _vm.updateCart
       }
     })], 1)
-  })], 2)])])]) : _c('div', [_vm._v("\n                В корзине нет товаров\n            ")])])])])
+  })], 2)])]), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-md-4 col-md-offset-8",
+    staticStyle: {
+      "text-align": "right"
+    }
+  }, [_c('span', [_vm._v("Товаров на:\t" + _vm._s(_vm.allSum) + " руб")]), _vm._v(" "), _c('br'), _vm._v(" "), _c('span', {
+    staticStyle: {
+      "text-decoration": "line-through"
+    }
+  }, [_vm._v(_vm._s(_vm.allBaseSum) + " руб.")]), _vm._v(" "), _c('br'), _vm._v(" "), _c('span', {
+    staticStyle: {
+      "font-weight": "bold"
+    }
+  }, [_vm._v("Итого:\t" + _vm._s(_vm.allSum) + " руб.")]), _vm._v(" "), _c('br')])])]) : _c('div', [_vm._v("\n                В корзине нет товаров\n            ")])])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "bx_sort_container"
