@@ -13,10 +13,13 @@
                                     <div class="col-md-4">
                                         Товары
                                     </div>
+                                    <div class="col-md-1">
+                                        Скидка
+                                    </div>
                                     <div class="col-md-2">
                                         Цена
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-1">
                                         Количество
                                     </div>
                                     <div class="col-md-2">
@@ -26,9 +29,11 @@
 
 
                                 </div>
-                                <div v-for="product in products">
+                                <div v-for="(product, index) in products">
                                     <basket-product :product="product"
-                                        @dataUpdated="updateCart">
+                                        @dataUpdated="updateCart"
+                                        @remove="removeProduct(index)"
+                                    >
                                     </basket-product>
                                 </div>
                             </div>
@@ -57,8 +62,9 @@
         mounted() {
 //            console.log('Component mounted.')
         },
+
         props: {
-            products: {
+            arrProducts: {
                 type: Array,
                 required: false
             },
@@ -75,12 +81,17 @@
             return {
                 allBaseSum: this.totalBasketBasePrice,
                 allSum: this.totalBasketPrice,
+                products: this.arrProducts,
             }
         },
         methods: {
             updateCart(value) {
                 this.allBaseSum = value.totalBasketBasePrice;
                 this.allSum = value.totalBasketPrice;
+            },
+            removeProduct(index) {
+                console.log(index);
+                this.products.splice(index, 1);
             }
         },
         components: {

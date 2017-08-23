@@ -1,27 +1,37 @@
 <template>
     <div class="row">
-        <div class="photo_container col-md-4">
-            <a :href="product.DETAIL_PAGE_URL">
-                <div class="bx_ordercart_photo" :style="{ 'background-image': 'url('+ pictureSrc + ')' }"></div>
-            </a>
-        </div>
-        <div class="col-md-2">
-            <span class="bx_ordercart_itemtitle ">
+        <div class="col-md-4">
+            <div class="photo_container">
+                <a :href="product.DETAIL_PAGE_URL">
+                    <div class="ordercart_photo" :style="{ 'background-image': 'url('+ pictureSrc + ')' }"></div>
+                </a>
+            </div>
+            <span >
                 <a :href="product.DETAIL_PAGE_URL">
                     {{ product.NAME }}
                 </a>
             </span>
         </div>
-
-        <div class="col-md-2 offset-md-2">
-            <input type="number"  v-model="quantity"
-            @change="updateQuantity"
-            >
+        <div class="col-md-1">
+            {{ product.DISCOUNT_PRICE_PERCENT }} %
         </div>
         <div class="col-md-2">
-            {{ summ }}
+            {{ product.PRICE }} руб.
         </div>
 
+        <div class="col-md-1 ">
+            <input type="number"  v-model="quantity" style="width:60px;"
+                @change="updateQuantity"
+            >
+
+        </div>
+        <div class="col-md-2">
+            {{ summ }}  руб.
+        </div>
+
+        <div class="col-md-2">
+            <span @click="deleteItem">Удалить</span>
+        </div>
     </div>
 </template>
 
@@ -72,16 +82,31 @@
                     })
                 .catch(error => console.error(error));
 
+            },
+            deleteItem() {
+                axios.get("/local/api/cart.php?action=delete&id="+this.product.ID)
+                    .then(response => {
+                        this.$emit('remove');
+
+                    })
+                    .catch(error => console.error(error));
             }
         }
     }
 </script>
 
 <style scoped>
-    .photo_container{
+    .photo_container, .ordercart_photo {
         width: 150px;
         height: 150px;
         padding-top: 0px;
+    }
+
+    .ordercart_photo {
+        background-position: center;
+        -webkit-background-size: auto 100%;
+        background-size: auto 100%;
+        background-repeat: no-repeat;
     }
 
 </style>

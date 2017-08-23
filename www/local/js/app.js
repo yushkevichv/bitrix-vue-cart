@@ -42025,14 +42025,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
         //            console.log('Component mounted.')
     },
 
+
     props: {
-        products: {
+        arrProducts: {
             type: Array,
             required: false
         },
@@ -42048,13 +42054,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             allBaseSum: this.totalBasketBasePrice,
-            allSum: this.totalBasketPrice
+            allSum: this.totalBasketPrice,
+            products: this.arrProducts
         };
     },
     methods: {
         updateCart: function updateCart(value) {
             this.allBaseSum = value.totalBasketBasePrice;
             this.allSum = value.totalBasketPrice;
+        },
+        removeProduct: function removeProduct(index) {
+            console.log(index);
+            this.products.splice(index, 1);
         }
     },
     components: {
@@ -42094,7 +42105,7 @@ if(false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(44)();
-exports.push([module.i, "\n.photo_container[data-v-321fd0d1]{\n    width: 150px;\n    height: 150px;\n    padding-top: 0px;\n}\n\n", ""]);
+exports.push([module.i, "\n.photo_container[data-v-321fd0d1], .ordercart_photo[data-v-321fd0d1] {\n    width: 150px;\n    height: 150px;\n    padding-top: 0px;\n}\n.ordercart_photo[data-v-321fd0d1] {\n    background-position: center;\n    background-size: auto 100%;\n    background-repeat: no-repeat;\n}\n\n", ""]);
 
 /***/ }),
 /* 44 */
@@ -42439,6 +42450,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -42482,6 +42503,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }).catch(function (error) {
                 return console.error(error);
             });
+        },
+        deleteItem: function deleteItem() {
+            var _this2 = this;
+
+            axios.get("/local/api/cart.php?action=delete&id=" + this.product.ID).then(function (response) {
+                _this2.$emit('remove');
+            }).catch(function (error) {
+                return console.error(error);
+            });
         }
     }
 });
@@ -42494,26 +42524,28 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('div', {
     staticClass: "row"
   }, [_c('div', {
-    staticClass: "photo_container col-md-4"
+    staticClass: "col-md-4"
+  }, [_c('div', {
+    staticClass: "photo_container"
   }, [_c('a', {
     attrs: {
       "href": _vm.product.DETAIL_PAGE_URL
     }
   }, [_c('div', {
-    staticClass: "bx_ordercart_photo",
+    staticClass: "ordercart_photo",
     style: ({
       'background-image': 'url(' + _vm.pictureSrc + ')'
     })
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "col-md-2"
-  }, [_c('span', {
-    staticClass: "bx_ordercart_itemtitle "
-  }, [_c('a', {
+  })])]), _vm._v(" "), _c('span', [_c('a', {
     attrs: {
       "href": _vm.product.DETAIL_PAGE_URL
     }
   }, [_vm._v("\n                " + _vm._s(_vm.product.NAME) + "\n            ")])])]), _vm._v(" "), _c('div', {
-    staticClass: "col-md-2 offset-md-2"
+    staticClass: "col-md-1"
+  }, [_vm._v("\n        " + _vm._s(_vm.product.DISCOUNT_PRICE_PERCENT) + " %\n    ")]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-2"
+  }, [_vm._v("\n        " + _vm._s(_vm.product.PRICE) + " руб.\n    ")]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-1 "
   }, [_c('input', {
     directives: [{
       name: "model",
@@ -42521,6 +42553,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       value: (_vm.quantity),
       expression: "quantity"
     }],
+    staticStyle: {
+      "width": "60px"
+    },
     attrs: {
       "type": "number"
     },
@@ -42536,7 +42571,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })]), _vm._v(" "), _c('div', {
     staticClass: "col-md-2"
-  }, [_vm._v("\n        " + _vm._s(_vm.summ) + "\n    ")])])
+  }, [_vm._v("\n        " + _vm._s(_vm.summ) + "  руб.\n    ")]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-2"
+  }, [_c('span', {
+    on: {
+      "click": _vm.deleteItem
+    }
+  }, [_vm._v("Удалить")])])])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -42569,13 +42610,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "id": "basket_items"
     }
-  }, [_vm._m(1), _vm._v(" "), _vm._l((_vm.products), function(product) {
+  }, [_vm._m(1), _vm._v(" "), _vm._l((_vm.products), function(product, index) {
     return _c('div', [_c('basket-product', {
       attrs: {
         "product": product
       },
       on: {
-        "dataUpdated": _vm.updateCart
+        "dataUpdated": _vm.updateCart,
+        "remove": function($event) {
+          _vm.removeProduct(index)
+        }
       }
     })], 1)
   })], 2)])]), _vm._v(" "), _c('div', {
@@ -42604,9 +42648,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('div', {
     staticClass: "col-md-4"
   }, [_vm._v("\n                                    Товары\n                                ")]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-1"
+  }, [_vm._v("\n                                    Скидка\n                                ")]), _vm._v(" "), _c('div', {
     staticClass: "col-md-2"
   }, [_vm._v("\n                                    Цена\n                                ")]), _vm._v(" "), _c('div', {
-    staticClass: "col-md-2"
+    staticClass: "col-md-1"
   }, [_vm._v("\n                                    Количество\n                                ")]), _vm._v(" "), _c('div', {
     staticClass: "col-md-2"
   }, [_vm._v("\n                                    Сумма\n                                ")]), _vm._v(" "), _c('div', {

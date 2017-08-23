@@ -104,7 +104,7 @@ if (strlen($arResult["ERROR_MESSAGE"]) <= 0)
 
     ?>
 
-    <cart :products="<?=htmlentities(json_encode($arResult['ITEMS']['AnDelCanBuy']))?>"
+    <cart :arr-products="<?=htmlentities(json_encode($arResult['ITEMS']['AnDelCanBuy']))?>"
           :total-basket-price="<?=$allSum;?>"
           :total-basket-base-price="<?=$allBaseSum;?>"
     >
