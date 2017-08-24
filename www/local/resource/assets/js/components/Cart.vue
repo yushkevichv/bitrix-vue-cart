@@ -44,8 +44,13 @@
                             <span>Товаров на:	{{ allSum }} руб</span> <br />
                             <span style="text-decoration: line-through;">{{ allBaseSum }} руб.</span> <br />
                             <span style="font-weight: bold;">Итого:	{{ allSum }} руб.</span> <br />
+                        </div>
 
+                    </div>
 
+                    <div class="row checkout__block">
+                        <div class="col-md-2 col-md-offset-10" >
+                            <button @click="submit" class="checkout__link">Оформить заказ</button>
                         </div>
                     </div>
                 </div>
@@ -96,6 +101,10 @@
                 this.products.splice(index, 1);
                 this.allBaseSum = value.totalBasketBasePrice;
                 this.allSum = value.totalBasketPrice;
+            },
+            submit() {
+                console.log('submit');
+                window.location.href='/personal/order/make/';
             }
         },
         components: {
@@ -104,3 +113,17 @@
 
     }
 </script>
+
+<style scoped>
+    .checkout__block {
+        margin-top: 30px;
+        margin-bottom: 30px;
+    }
+    .checkout__link {
+        background: linear-gradient(to bottom,#99d23e 0,#63aa28 100%);
+        color: #fff;
+        text-shadow: 0 1px 0 #0075b6;
+        padding: 15px;
+    }
+
+</style>
