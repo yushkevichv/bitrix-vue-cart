@@ -29,10 +29,10 @@
 
 
                                 </div>
-                                <div v-for="(product, index) in products">
+                                <div v-for="(product, index) in products" :key="product.ID">
                                     <basket-product :product="product"
                                         @dataUpdated="updateCart"
-                                        @remove="removeProduct(index)"
+                                        @remove="(value) => removeProduct(index, value)"
                                     >
                                     </basket-product>
                                 </div>
@@ -62,6 +62,9 @@
         mounted() {
 //            console.log('Component mounted.')
         },
+        computed: {
+
+        },
 
         props: {
             arrProducts: {
@@ -89,9 +92,10 @@
                 this.allBaseSum = value.totalBasketBasePrice;
                 this.allSum = value.totalBasketPrice;
             },
-            removeProduct(index) {
-                console.log(index);
+            removeProduct(index, value) {
                 this.products.splice(index, 1);
+                this.allBaseSum = value.totalBasketBasePrice;
+                this.allSum = value.totalBasketPrice;
             }
         },
         components: {

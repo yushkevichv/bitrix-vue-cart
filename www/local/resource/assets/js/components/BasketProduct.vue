@@ -84,10 +84,10 @@
 
             },
             deleteItem() {
+                
                 axios.get("/local/api/cart.php?action=delete&id="+this.product.ID)
                     .then(response => {
-                        this.$emit('remove');
-
+                        this.$emit('remove', response.data);
                     })
                     .catch(error => console.error(error));
             }
