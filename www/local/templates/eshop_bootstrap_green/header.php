@@ -154,5 +154,5 @@ if($APPLICATION->GetCurPage() != '/personal/order/make/')
 	<div class="workarea">
 		<div class="container bx-content-seection">
 			<div class="row">
-			<?$needSidebar = preg_match("~^".SITE_DIR."(catalog|personal\/cart|personal\/order\/make)/~", $curPage);?>
+			<?$needSidebar = preg_match("~^".SITE_DIR."(catalog|personal\/cart|personal\/cart_vue|personal\/order\/make)/~", $curPage);?>
 				<div class="bx-content <?=($needSidebar ? "col-xs-12" : "col-md-9 col-sm-8")?>">

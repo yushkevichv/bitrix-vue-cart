@@ -103,7 +103,6 @@
                 this.allSum = value.totalBasketPrice;
             },
             submit() {
-                console.log('submit');
                 window.location.href='/personal/order/make/';
             }
         },

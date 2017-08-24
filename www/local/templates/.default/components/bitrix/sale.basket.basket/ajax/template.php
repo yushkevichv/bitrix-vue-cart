@@ -94,22 +94,6 @@ if (strlen($arResult["ERROR_MESSAGE"]) <= 0)
 			<input type="hidden" name="BasketOrder" value="BasketOrder" />
 			<!-- <input type="hidden" name="ajax_post" id="ajax_post" value="Y"> -->
 		</form>
-<!--    --><?// var_dump(htmlentities(bitrix_sessid())); ?>
-
-    <?
-    // TODO need refactor to work with float value
-
-    $allSum = (int) $arResult['allSum'];
-    $allBaseSum = (int) ($arResult['allSum'] + $arResult['DISCOUNT_PRICE_ALL']);
-
-    ?>
-
-    <cart :arr-products="<?=htmlentities(json_encode($arResult['ITEMS']['AnDelCanBuy']))?>"
-          :total-basket-price="<?=$allSum;?>"
-          :total-basket-base-price="<?=$allBaseSum;?>"
-    >
-    </cart>
-
 	<?
 }
 else
