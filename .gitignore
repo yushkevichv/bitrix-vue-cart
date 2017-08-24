@@ -1,5 +1,5 @@
 .idea
-www/bitrix
-www/node_modules/
-www/upload/
-www/local/js/app.js
+bitrix
+node_modules/
+upload/
+local/js/app.js
